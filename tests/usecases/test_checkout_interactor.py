@@ -12,17 +12,26 @@ class TestCheckoutInteractor(unittest.TestCase):
                 {
                     "code": "VOUCHER",
                     "name": "Voucher",
-                    "price": "5.00 EUR"
+                    "price": {
+                        "amount": "5.00",
+                        "currency_code": "EUR"
+                    }
                 },
                 {
                     "code": "TSHIRT",
                     "name": "T-shirt",
-                    "price": "20.00 EUR"
+                    "price": {
+                        "amount": "20.00",
+                        "currency_code": "EUR"
+                    }
                 },
                 {
                     "code": "MUG",
                     "name": "Coffee mug",
-                    "price": "7.50 EUR"
+                    "price": {
+                        "amount": "7.50",
+                        "currency_code": "EUR"
+                    }
                 }
         ]
         price_rules_json = json.dumps(price_rules)

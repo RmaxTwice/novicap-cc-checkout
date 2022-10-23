@@ -3,6 +3,8 @@ import json
 from moneyed import Money
 from moneyed.l10n import format_money
 
+from src.entities.checkout import Product
+
 class CheckoutInteractor:
 
     def __init__(self, price_rules: str):
@@ -13,11 +15,7 @@ class CheckoutInteractor:
     def load_price_rules(self, price_rules_json: str) -> None:
         price_rules = json.loads(price_rules_json)
         for product in price_rules:
-            amount, currency = product["price"].split(" ")
-            self.products[product["code"]] = {
-                "name": product["name"],
-                "price": Money(amount, currency),
-            }
+            self.products[product["code"]] = Product(**product)
 
     def scan(self, product_code: str) -> None:
         if product_code in self.products.keys():
@@ -29,7 +27,6 @@ class CheckoutInteractor:
     def total(self) -> str:
         result = Money("0.00", "EUR")
         for item in self.items:
-            result += self.products[item]["price"]
+            result += self.products[item].unit_price
 
-        formatted_result = format_money(result, "0.00¤", locale="en_US")
-        return formatted_result
+        return format_money(result, "0.00¤", locale="en_US")
