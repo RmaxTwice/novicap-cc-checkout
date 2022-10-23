@@ -7,7 +7,7 @@ from src.usecases.checkout import CheckoutInteractor
 class TestCheckoutInteractor(unittest.TestCase):
 
     def setUp(self):
-        # Basic Products and Discount test fixture
+        # Basic products and discounts test fixture
         price_rules = [
                 {
                     "code": "VOUCHER",
