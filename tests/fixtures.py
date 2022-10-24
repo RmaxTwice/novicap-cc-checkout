@@ -52,16 +52,11 @@ def discounts_fixture():
                 "BULKAFTER3":{
                     "code": "BULKAFTER3",
                     "type": "bulk",
-                    "tiers": [
-                        {
-                            "min_qty": 3,
-                            "max_qty": None,
-                            "unit_price": {
-                                "amount": "19.00",
-                                "currency_code": "EUR",
-                            }
-                        }
-                    ]
+                    "min_qty": 3,
+                    "unit_price": {
+                        "amount": "19.00",
+                        "currency_code": "EUR",
+                    }
                 }
             }
         }

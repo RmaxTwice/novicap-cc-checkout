@@ -60,3 +60,29 @@ class TestCheckout(unittest.TestCase):
         self.assertIsInstance(total, Money)
         self.assertEqual(total.get_amount_in_sub_unit(), 2500)
         self.assertEqual(total.currency.code, "EUR")
+
+    def test_calculate_total_with_bulk_discount(self):
+        self.checkout.add_scanned_product("TSHIRT")
+        self.checkout.add_scanned_product("TSHIRT")
+        self.checkout.add_scanned_product("TSHIRT")
+        self.checkout.add_scanned_product("VOUCHER")
+        self.checkout.add_scanned_product("TSHIRT")
+        total = self.checkout.calculate_total()
+
+        self.assertIsInstance(total, Money)
+        self.assertEqual(total.get_amount_in_sub_unit(), 8100)
+        self.assertEqual(total.currency.code, "EUR")
+
+    def test_calculate_total_with_all_discounts(self):
+        self.checkout.add_scanned_product("VOUCHER")
+        self.checkout.add_scanned_product("TSHIRT")
+        self.checkout.add_scanned_product("VOUCHER")
+        self.checkout.add_scanned_product("VOUCHER")
+        self.checkout.add_scanned_product("MUG")
+        self.checkout.add_scanned_product("TSHIRT")
+        self.checkout.add_scanned_product("TSHIRT")
+        total = self.checkout.calculate_total()
+
+        self.assertIsInstance(total, Money)
+        self.assertEqual(total.get_amount_in_sub_unit(), 7450)
+        self.assertEqual(total.currency.code, "EUR")
