@@ -2,38 +2,13 @@ import json
 import unittest
 
 from src.usecases.checkout import CheckoutInteractor
-
+from tests.fixtures import price_rules_fixture
 
 class TestCheckoutInteractor(unittest.TestCase):
 
     def setUp(self):
         # Basic products and discounts test fixture
-        price_rules = [
-                {
-                    "code": "VOUCHER",
-                    "name": "Voucher",
-                    "price": {
-                        "amount": "5.00",
-                        "currency_code": "EUR"
-                    }
-                },
-                {
-                    "code": "TSHIRT",
-                    "name": "T-shirt",
-                    "price": {
-                        "amount": "20.00",
-                        "currency_code": "EUR"
-                    }
-                },
-                {
-                    "code": "MUG",
-                    "name": "Coffee mug",
-                    "price": {
-                        "amount": "7.50",
-                        "currency_code": "EUR"
-                    }
-                }
-        ]
+        price_rules = price_rules_fixture()
         price_rules_json = json.dumps(price_rules)
         self.checkout = CheckoutInteractor(price_rules_json)
 
