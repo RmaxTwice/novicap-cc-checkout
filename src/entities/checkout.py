@@ -18,7 +18,6 @@ class Product:
 @dataclass
 class Checkout:
     products: Union[Dict[str, Product], List[Product]]
-    discounts: List
     scanned_items: List = field(default_factory=list)
     default_currency: str = "EUR"
 

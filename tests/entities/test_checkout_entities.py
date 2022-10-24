@@ -9,7 +9,7 @@ from tests.fixtures import price_rules_fixture
 class TestProduct(unittest.TestCase):
     def setUp(self):
         price_rules = price_rules_fixture()
-        product = price_rules["products"][0]
+        product = price_rules[0]
         self.product = Product(**product)
 
     def test_properties(self):
@@ -27,12 +27,11 @@ class TestProduct(unittest.TestCase):
 class TestCheckout(unittest.TestCase):
     def setUp(self):
         price_rules = price_rules_fixture()
-        self.products = [Product(**p) for p in price_rules["products"]]
-        self.discounts = price_rules["discounts"]
-        self.checkout = Checkout(products=self.products, discounts=self.products)
+        self.products = [Product(**p) for p in price_rules]
+        self.checkout = Checkout(products=self.products)
 
     def test_empty_checkout_total(self):
-        checkout = Checkout(products=[], discounts=[])
+        checkout = Checkout(products=[])
         empty_total = checkout.calculate_total()
 
         self.assertIsInstance(empty_total, Money)
@@ -40,7 +39,7 @@ class TestCheckout(unittest.TestCase):
         self.assertEqual(empty_total.currency.code, "EUR")
 
     def test_calculate_total_without_discounts(self):
-        checkout = Checkout(products=self.products, discounts=[])
+        checkout = Checkout(products=self.products)
         checkout.add_scanned_item("VOUCHER")
         checkout.add_scanned_item("TSHIRT")
         checkout.add_scanned_item("MUG")
