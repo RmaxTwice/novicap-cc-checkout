@@ -3,7 +3,7 @@ import unittest
 from moneyed import Money
 
 from src.entities.checkout import Product, Checkout
-from tests.fixtures import products_fixture
+from tests.fixtures import products_fixture, discounts_fixture
 
 
 class TestProduct(unittest.TestCase):
@@ -29,8 +29,8 @@ class TestProduct(unittest.TestCase):
 class TestCheckout(unittest.TestCase):
     def setUp(self):
         self.products = [Product(**p) for p in products_fixture()]
-        # self.discounts = price_rules["discounts"]
-        self.checkout = Checkout(products=self.products)
+        self.discounts = discounts_fixture()
+        self.checkout = Checkout(products=self.products, discounts=self.discounts)
 
     def test_empty_checkout_total(self):
         checkout = Checkout(products=[])
@@ -42,11 +42,21 @@ class TestCheckout(unittest.TestCase):
 
     def test_calculate_total_without_discounts(self):
         checkout = Checkout(products=self.products)
-        checkout.add_scanned_item("VOUCHER")
-        checkout.add_scanned_item("TSHIRT")
-        checkout.add_scanned_item("MUG")
+        checkout.add_scanned_product("VOUCHER")
+        checkout.add_scanned_product("TSHIRT")
+        checkout.add_scanned_product("MUG")
         total = checkout.calculate_total()
 
         self.assertIsInstance(total, Money)
         self.assertEqual(total.get_amount_in_sub_unit(), 3250)
+        self.assertEqual(total.currency.code, "EUR")
+
+    def test_calculate_total_with_package_discount(self):
+        self.checkout.add_scanned_product("VOUCHER")
+        self.checkout.add_scanned_product("TSHIRT")
+        self.checkout.add_scanned_product("VOUCHER")
+        total = self.checkout.calculate_total()
+
+        self.assertIsInstance(total, Money)
+        self.assertEqual(total.get_amount_in_sub_unit(), 2500)
         self.assertEqual(total.currency.code, "EUR")

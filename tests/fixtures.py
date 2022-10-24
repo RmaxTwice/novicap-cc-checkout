@@ -31,20 +31,22 @@ def products_fixture():
 def discounts_fixture():
     return {
         "VOUCHER": {
+            "product": "VOUCHER",
             "active": "2X1",
             "available_discounts": {
                 "2X1": {
                     "code": "2X1",
                     "type": "package",
                     "qty": 2,
-                    "unit_price": {
-                        "amount": "2.50",
+                    "price": {
+                        "amount": "5.00",
                         "currency_code": "EUR",
                     }
                 }
             }
         },
         "TSHIRT": {
+            "product": "TSHIRT",
             "active": "BULKAFTER3",
             "available_discounts": {
                 "BULKAFTER3":{
@@ -68,7 +70,7 @@ def discounts_fixture():
 def price_rules_fixture():
     return {
         "products": products_fixture(),
-        "discounts": discounts_fixture()
+        "product_discounts": discounts_fixture()
     }
 
 def price_rules_json_fixture():

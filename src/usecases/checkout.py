@@ -14,7 +14,7 @@ class CheckoutInteractor:
         self.checkout = Checkout(products)
 
     def scan(self, product_code: str) -> None:
-        self.checkout.add_scanned_item(product_code)
+        self.checkout.add_scanned_product(product_code)
 
     @property
     def total(self) -> str:
