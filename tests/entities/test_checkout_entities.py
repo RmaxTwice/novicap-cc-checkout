@@ -32,6 +32,10 @@ class TestCheckout(unittest.TestCase):
         self.discounts = discounts_fixture()
         self.checkout = Checkout(products=self.products, product_discounts=self.discounts)
 
+    def add_scanned_products(self, products):
+        for p in products:
+            self.checkout.add_scanned_product(p)
+
     def test_empty_checkout_total(self):
         checkout = Checkout(products=[])
         empty_total = checkout.calculate_total()
@@ -52,9 +56,8 @@ class TestCheckout(unittest.TestCase):
         self.assertEqual(total.currency.code, "EUR")
 
     def test_calculate_total_with_package_discount(self):
-        self.checkout.add_scanned_product("VOUCHER")
-        self.checkout.add_scanned_product("TSHIRT")
-        self.checkout.add_scanned_product("VOUCHER")
+        products = ["VOUCHER", "TSHIRT", "VOUCHER"]
+        self.add_scanned_products(products)
         total = self.checkout.calculate_total()
 
         self.assertIsInstance(total, Money)
@@ -62,11 +65,8 @@ class TestCheckout(unittest.TestCase):
         self.assertEqual(total.currency.code, "EUR")
 
     def test_calculate_total_with_bulk_discount(self):
-        self.checkout.add_scanned_product("TSHIRT")
-        self.checkout.add_scanned_product("TSHIRT")
-        self.checkout.add_scanned_product("TSHIRT")
-        self.checkout.add_scanned_product("VOUCHER")
-        self.checkout.add_scanned_product("TSHIRT")
+        products = ["TSHIRT", "TSHIRT", "TSHIRT", "VOUCHER", "TSHIRT"]
+        self.add_scanned_products(products)
         total = self.checkout.calculate_total()
 
         self.assertIsInstance(total, Money)
@@ -74,13 +74,8 @@ class TestCheckout(unittest.TestCase):
         self.assertEqual(total.currency.code, "EUR")
 
     def test_calculate_total_with_all_discounts(self):
-        self.checkout.add_scanned_product("VOUCHER")
-        self.checkout.add_scanned_product("TSHIRT")
-        self.checkout.add_scanned_product("VOUCHER")
-        self.checkout.add_scanned_product("VOUCHER")
-        self.checkout.add_scanned_product("MUG")
-        self.checkout.add_scanned_product("TSHIRT")
-        self.checkout.add_scanned_product("TSHIRT")
+        products = ["VOUCHER", "TSHIRT", "VOUCHER", "VOUCHER", "MUG", "TSHIRT", "TSHIRT"]
+        self.add_scanned_products(products)
         total = self.checkout.calculate_total()
 
         self.assertIsInstance(total, Money)
