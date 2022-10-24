@@ -12,11 +12,11 @@ class TestCheckoutInteractor(unittest.TestCase):
         price_rules_json = json.dumps(price_rules)
         self.checkout = CheckoutInteractor(price_rules_json)
 
-    def test_raise_error_product_code_not_found(self):
+    def test_product_code_not_found_error(self):
         with self.assertRaises(ValueError):
             self.checkout.scan("FOO")
 
-    def test_empty_checkout(self):
+    def test_no_items_scanned_total(self):
         self.assertEqual(self.checkout.total, "0.00€")
 
     def test_simple_checkout(self):
@@ -24,4 +24,3 @@ class TestCheckoutInteractor(unittest.TestCase):
         self.checkout.scan("TSHIRT")
         self.checkout.scan("MUG")
         self.assertEqual(self.checkout.total, "32.50€")
-

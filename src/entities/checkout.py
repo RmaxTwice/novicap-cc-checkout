@@ -11,8 +11,7 @@ class Product:
     name: str
     price: Dict[str, str]
 
-    @property
-    def unit_price(self) -> Money:
+    def get_unit_price(self) -> Money:
         return Money(self.price["amount"], self.price["currency_code"])
 
 
@@ -38,6 +37,6 @@ class Checkout:
     def calculate_total(self) -> Money:
         total = Money("0.00", self.default_currency)
         for item in self.scanned_items:
-            total += self.products[item].unit_price
+            total += self.products[item].get_unit_price()
 
         return total
