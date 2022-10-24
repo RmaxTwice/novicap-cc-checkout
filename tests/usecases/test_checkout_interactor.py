@@ -1,4 +1,3 @@
-import json
 import unittest
 
 from src.usecases.checkout import CheckoutInteractor
