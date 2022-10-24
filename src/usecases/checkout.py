@@ -11,7 +11,10 @@ class CheckoutInteractor:
         # Normally this would be done by an external layer
         price_rules = json.loads(price_rules_json)
         products = [Product(**p) for p in price_rules["products"]]
-        self.checkout = Checkout(products)
+        self.checkout = Checkout(
+            products=products,
+            discounts=price_rules["product_discounts"]
+        )
 
     def scan(self, product_code: str) -> None:
         self.checkout.add_scanned_product(product_code)

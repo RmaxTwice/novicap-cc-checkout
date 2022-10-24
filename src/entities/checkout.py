@@ -19,8 +19,8 @@ class Product:
 @dataclass
 class Checkout:
     products: Union[Dict[str, Product], List[Product]]
-    scanned_products: List = field(default_factory=list)
     discounts: Dict[str, Dict] = field(default_factory=dict)
+    scanned_products: List = field(default_factory=list)
     default_currency: str = "EUR"
 
     def __post_init__(self):
@@ -37,11 +37,12 @@ class Checkout:
 
     def calculate_total(self) -> Money:
         sub_total = Money("0.00", self.default_currency)
-        items_qty = Counter(self.scanned_products)
+        if self.scanned_products:
+            items_qty = Counter(self.scanned_products)
 
-        for product_code, qty  in items_qty.items():
-            sub_total += self.calculate_item_subtotal(product_code, qty)
-            self.products[product_code].get_unit_price()
+            for product_code, qty  in items_qty.items():
+                sub_total += self.calculate_item_subtotal(product_code, qty)
+                self.products[product_code].get_unit_price()
 
         total = sub_total
         return total

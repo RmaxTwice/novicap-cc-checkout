@@ -24,3 +24,27 @@ class TestCheckoutInteractor(unittest.TestCase):
         self.checkout.scan("TSHIRT")
         self.checkout.scan("MUG")
         self.assertEqual(self.checkout.total, "32.50€")
+
+    def test_calculate_total_with_package_discount(self):
+        self.checkout.scan("VOUCHER")
+        self.checkout.scan("TSHIRT")
+        self.checkout.scan("VOUCHER")
+        self.assertEqual(self.checkout.total, "25.00€")
+
+    def test_calculate_total_with_bulk_discount(self):
+        self.checkout.scan("TSHIRT")
+        self.checkout.scan("TSHIRT")
+        self.checkout.scan("TSHIRT")
+        self.checkout.scan("VOUCHER")
+        self.checkout.scan("TSHIRT")
+        self.assertEqual(self.checkout.total, "81.00€")
+
+    def test_calculate_total_with_all_discounts(self):
+        self.checkout.scan("VOUCHER")
+        self.checkout.scan("TSHIRT")
+        self.checkout.scan("VOUCHER")
+        self.checkout.scan("VOUCHER")
+        self.checkout.scan("MUG")
+        self.checkout.scan("TSHIRT")
+        self.checkout.scan("TSHIRT")
+        self.assertEqual(self.checkout.total, "74.50€")
