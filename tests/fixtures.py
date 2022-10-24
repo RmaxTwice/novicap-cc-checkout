@@ -30,33 +30,39 @@ def products_fixture():
 
 def discounts_fixture():
     return {
-        "VOUCHER": [
-            {
-                "code": "VOUCHER2x1",
-                "type": "package",
-                "qty": 2,
-                "unit_price": {
-                    "amount": "2.50",
-                    "currency_code": "EUR",
+        "VOUCHER": {
+            "active": "2X1",
+            "available_discounts": {
+                "2X1": {
+                    "code": "2X1",
+                    "type": "package",
+                    "qty": 2,
+                    "unit_price": {
+                        "amount": "2.50",
+                        "currency_code": "EUR",
+                    }
                 }
             }
-        ],
-        "TSHIRT": [
-            {
-                "code": "TSHIRTBULK3",
-                "type": "bulk",
-                "tiers": [
-                    {
-                        "min_qty": 3,
-                        "max_qty": None,
-                        "unit_price": {
-                            "amount": "19.00",
-                            "currency_code": "EUR",
+        },
+        "TSHIRT": {
+            "active": "BULKAFTER3",
+            "available_discounts": {
+                "BULKAFTER3":{
+                    "code": "BULKAFTER3",
+                    "type": "bulk",
+                    "tiers": [
+                        {
+                            "min_qty": 3,
+                            "max_qty": None,
+                            "unit_price": {
+                                "amount": "19.00",
+                                "currency_code": "EUR",
+                            }
                         }
-                    }
-                ]
+                    ]
+                }
             }
-        ]
+        }
     }
 
 def price_rules_fixture():
