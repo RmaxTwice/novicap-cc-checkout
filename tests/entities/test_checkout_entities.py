@@ -15,9 +15,13 @@ class TestProduct(unittest.TestCase):
     def test_properties(self):
         self.assertEqual(str(self.product.code), "VOUCHER")
         self.assertEqual(self.product.name, "Voucher")
-        self.assertEqual(
-            self.product.price, {"amount": "5.00","currency_code": "EUR"}
+        self.assertIn(
+            "unit_price",
+            self.product.price_models.keys(),
+            "price_models must contain unit_price key"
         )
+
+    def test_get_unit_price(self):
         unit_price = self.product.get_unit_price()
         self.assertIsInstance(unit_price, Money)
         self.assertEqual(unit_price.get_amount_in_sub_unit(), 500)

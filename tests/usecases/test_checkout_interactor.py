@@ -4,6 +4,7 @@ import unittest
 from src.usecases.checkout import CheckoutInteractor
 from tests.fixtures import price_rules_fixture
 
+
 class TestCheckoutInteractor(unittest.TestCase):
 
     def setUp(self):
@@ -19,7 +20,7 @@ class TestCheckoutInteractor(unittest.TestCase):
     def test_no_items_scanned_total(self):
         self.assertEqual(self.checkout.total, "0.00€")
 
-    def test_simple_checkout(self):
+    def test_total_without_discounts(self):
         self.checkout.scan("VOUCHER")
         self.checkout.scan("TSHIRT")
         self.checkout.scan("MUG")

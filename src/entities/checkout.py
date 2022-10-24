@@ -9,10 +9,11 @@ class Product:
     """Class for keeping track of a Product"""
     code: str
     name: str
-    price: Dict[str, str]
+    price_models: Dict[str, Dict]
 
     def get_unit_price(self) -> Money:
-        return Money(self.price["amount"], self.price["currency_code"])
+        unit_price = self.price_models["unit_price"]
+        return Money(unit_price["amount"], unit_price["currency_code"])
 
 
 @dataclass

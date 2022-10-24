@@ -1,6 +1,5 @@
 import json
 
-from moneyed import Money
 from moneyed.l10n import format_money
 
 from src.entities.checkout import Checkout, Product
