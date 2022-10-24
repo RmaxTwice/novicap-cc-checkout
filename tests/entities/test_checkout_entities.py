@@ -8,14 +8,8 @@ from tests.fixtures import price_rules_fixture
 
 class TestProduct(unittest.TestCase):
     def setUp(self):
-        product = {
-            "code": "VOUCHER",
-            "name": "Voucher",
-            "price": {
-                "amount": "5.00",
-                "currency_code": "EUR"
-            }
-        }
+        price_rules = price_rules_fixture()
+        product = price_rules["products"][0]
         self.product = Product(**product)
 
     def test_product_properties(self):
@@ -51,6 +45,7 @@ class TestCheckout(unittest.TestCase):
         checkout.add_scanned_item("TSHIRT")
         checkout.add_scanned_item("MUG")
         total = checkout.calculate_total()
+
         self.assertIsInstance(total, Money)
         self.assertEqual(total.get_amount_in_sub_unit(), 3250)
         self.assertEqual(total.currency.code, "EUR")
