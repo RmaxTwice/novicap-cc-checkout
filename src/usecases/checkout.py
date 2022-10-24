@@ -13,7 +13,7 @@ class CheckoutInteractor:
         products = [Product(**p) for p in price_rules["products"]]
         self.checkout = Checkout(
             products=products,
-            discounts=price_rules["product_discounts"]
+            product_discounts=price_rules["product_discounts"]
         )
 
     def scan(self, product_code: str) -> None:

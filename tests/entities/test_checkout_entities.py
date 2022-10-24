@@ -30,7 +30,7 @@ class TestCheckout(unittest.TestCase):
     def setUp(self):
         self.products = [Product(**p) for p in products_fixture()]
         self.discounts = discounts_fixture()
-        self.checkout = Checkout(products=self.products, discounts=self.discounts)
+        self.checkout = Checkout(products=self.products, product_discounts=self.discounts)
 
     def test_empty_checkout_total(self):
         checkout = Checkout(products=[])

@@ -19,7 +19,7 @@ class Product:
 @dataclass
 class Checkout:
     products: Union[Dict[str, Product], List[Product]]
-    discounts: Dict[str, Dict] = field(default_factory=dict)
+    product_discounts: Dict[str, Dict] = field(default_factory=dict)
     scanned_products: List = field(default_factory=list)
     default_currency: str = "EUR"
 
@@ -80,7 +80,7 @@ class Checkout:
         return sub_total
 
     def get_active_product_discount(self, product_code: str) -> Union[Any, Dict]:
-        discount = self.discounts.get(product_code, None)
+        discount = self.product_discounts.get(product_code, None)
         if discount:
             return discount["available_discounts"].get(discount["active"], None)
         return None
