@@ -3,23 +3,21 @@ import unittest
 from moneyed import Money
 
 from src.entities.checkout import Product, Checkout
-from tests.fixtures import price_rules_fixture
+from tests.fixtures import products_fixture
 
 
 class TestProduct(unittest.TestCase):
     def setUp(self):
-        price_rules = price_rules_fixture()
-        product = price_rules[0]
+        products = products_fixture()
+        product = products[0]
         self.product = Product(**product)
 
-    def test_properties(self):
+    def test_basic_constructor(self):
         self.assertEqual(str(self.product.code), "VOUCHER")
         self.assertEqual(self.product.name, "Voucher")
-        self.assertIn(
-            "unit_price",
-            self.product.price_models.keys(),
-            "price_models must contain unit_price key"
-        )
+        self.assertEqual(self.product.unit_price, {
+            "amount": "5.00", "currency_code": "EUR"
+        })
 
     def test_get_unit_price(self):
         unit_price = self.product.get_unit_price()
@@ -30,8 +28,8 @@ class TestProduct(unittest.TestCase):
 
 class TestCheckout(unittest.TestCase):
     def setUp(self):
-        price_rules = price_rules_fixture()
-        self.products = [Product(**p) for p in price_rules]
+        self.products = [Product(**p) for p in products_fixture()]
+        # self.discounts = price_rules["discounts"]
         self.checkout = Checkout(products=self.products)
 
     def test_empty_checkout_total(self):

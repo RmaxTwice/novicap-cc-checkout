@@ -6,14 +6,13 @@ from moneyed import Money
 
 @dataclass
 class Product:
-    """Class for keeping track of a Product"""
+    """Class for keeping track of a Product and its prices/discounts"""
     code: str
     name: str
-    price_models: Dict[str, Dict]
+    unit_price: Dict[str, Dict]
 
     def get_unit_price(self) -> Money:
-        unit_price = self.price_models["unit_price"]
-        return Money(unit_price["amount"], unit_price["currency_code"])
+        return Money(self.unit_price["amount"], self.unit_price["currency_code"])
 
 
 @dataclass

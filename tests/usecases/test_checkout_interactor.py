@@ -2,16 +2,15 @@ import json
 import unittest
 
 from src.usecases.checkout import CheckoutInteractor
-from tests.fixtures import price_rules_fixture
+from tests.fixtures import price_rules_json_fixture
 
 
 class TestCheckoutInteractor(unittest.TestCase):
 
     def setUp(self):
         # Basic products and discounts test fixture
-        price_rules = price_rules_fixture()
-        price_rules_json = json.dumps(price_rules)
-        self.checkout = CheckoutInteractor(price_rules_json)
+        price_rules = price_rules_json_fixture()
+        self.checkout = CheckoutInteractor(price_rules)
 
     def test_product_code_not_found_error(self):
         with self.assertRaises(ValueError):
